@@ -25,3 +25,7 @@ password = *******
 
 4. firt time setup with command:
 snowsql -c myconnection
+
+
+#### load data using snowsql 
+1. snowsql -c myconnection  use test_db
