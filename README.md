@@ -28,4 +28,30 @@ snowsql -c myconnection
 
 
 #### load data using snowsql 
-1. snowsql -c myconnection  use test_db
+1. snowsql -c myconnection  
+
+2. use test_db;
+
+3. SELECT * FROM CUSTOMER_DETAIL LIMIT 10;
+
+4. Create PIPE FORMAT
+
+create or replace file format PIPE_FORMAT_CLI
+  type = 'CSV'  
+  field_delimiter = '|'  
+  skip_header = 1;
+  
+5. Create state for snowflake
+
+create or replace stage PIPE_CLI_STAGE
+file_format = PIPE_FORMAT_CLI;
+  
+6. Put customer_detail csv in stage. Snowflake will load the table from this stage
+
+put file://C:\Users\jingc\Downloads\Snowflake_Real-Time_Data_Warehouse_Project_forBeginners-1\Data\teslaData\customer_detail.csv
+@PIPE_CLI_STAGE auto_compress=true;
+
+7. List stage to see how many files are loaded in stage
+
+list @PIPE_CLI_STAGE;
+
