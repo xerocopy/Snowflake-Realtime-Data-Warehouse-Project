@@ -82,4 +82,37 @@ copy into mycsvtable
 
 
 
+#### In snowflake web interface/worksheet
+
+Use test_db;
+
+CREATE TABLE TESLA_DATA (
+    Date            date,
+    Open_value      double,
+    High_value      double,
+    Low_value       double,
+    Close_value     double,
+    Adj_Close       double,
+    volume          bigint
+    );
+
+--Creat External S3 storage
+CREATE OR REPLACE STAGE BULK_COPY_TESLA_STAGE URL="s3://snowflakecomputingpro-123/TSLA.csv"
+
+CREDENTIALS=(AWS_KEY_ID='************' AWS_SECRET_KEY='**********'); 
+
+
+--List the content of the stage
+
+LIST @BULK_COPY_TESLA_STAGE;
+
+--Copy data from table
+
+COPY INTO TESLA_DATA
+FROM @BULK_COPY_TESLA_STAGE
+FILE_FORMAT = (TYPE = CSV FIELD_DELIMITER = ',' SKIP_HEADER = 1);
+
+
+select * from TESLA_DATA limit 10;
+
 
