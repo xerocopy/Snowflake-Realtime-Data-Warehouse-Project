@@ -48,10 +48,38 @@ file_format = PIPE_FORMAT_CLI;
   
 6. Put customer_detail csv in stage. Snowflake will load the table from this stage
 
-put file://C:\Users\jingc\Downloads\Snowflake_Real-Time_Data_Warehouse_Project_forBeginners-1\Data\teslaData\customer_detail.csv
+put
+file://C:\Users\jingc\Downloads\Snowflake_Real-Time_Data_Warehouse_Project_forBeginners-1\Data\teslaData\customer_detail.csv
 @PIPE_CLI_STAGE auto_compress=true;
 
 7. List stage to see how many files are loaded in stage
 
 list @PIPE_CLI_STAGE;
+
+
+8. Resume warehouse. In our case warehouse is set to auto-resume so no need to run this command. 
+
+alter warehouse test_wh resume;
+alter warehouse compute_wh resume;
+
+9. Finally copy command to load dat int table from stage
+
+copy into customer_detail
+  from @PIPE_CLI_STAGE
+  file_format = (format_name = PIPE_FORMAT_CLI)
+  on_error = 'skip_file';
+ 
+select * from customer_detail;  # to check the table content
+  
+ 
+10. We can also give copy command with pattern if your stage contain multile files.
+ 
+copy into mycsvtable
+  from @my_csv_stage
+  file_format = (format_name = mycsvformat)
+  pattern = '.*contacts[1-5].csv.gz'
+  on_error = 'skip_file';
+
+
+
 
