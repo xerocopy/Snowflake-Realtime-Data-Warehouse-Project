@@ -116,17 +116,16 @@ FILE_FORMAT = (TYPE = CSV FIELD_DELIMITER = ',' SKIP_HEADER = 1);
 select * from TESLA_DATA limit 10;
 
 
-use role sysadmin;
+use role accountadmin;
 
-GRANT CREATE INTEGRATION on account to role sysadmin;
-GRANT USAGE on S3_INTEGRATION to ROLE SYSADMIN;
+GRANT CREATE INTEGRATION on account to role accountadmin;
+GRANT USAGE on S3_INTEGRATION to ROLE ACCOUNTADMIN;
 
 
 --Create Storage Integration
 CREATE or replace STORAGE INTEGRATION S3_INTEGRATION_SYSADMIN
 TYPE = EXTERNAL_STAGE
-STORAGE_EXTERNAL_STAGE
-STORAGE_PROVIDER = s3
+STORAGE_PROVIDER = S3
 STORAGE_AWS_ROLE_ARN = 'arn:aws:iam::516003265142:role/Snowflake_Access_Role'
 ENABLED =TRUE
 STORAGE_ALLOWED_LOCATIONS = ('s3://snowflakecomputing-123/Input/');
