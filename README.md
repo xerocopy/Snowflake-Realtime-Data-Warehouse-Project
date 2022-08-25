@@ -154,13 +154,18 @@ desc integration S3_INTEGRATION_SYSADMIN;
 }
 
 
---switch to sysadmin
+--switch to sysadmin grant all previliges
 use role accountadmin;
 GRANT CREATE INTEGRATION on account to role sysadmin;
 
 GRANT ALL ON ACCOUNT TO ROLE sysadmin
 
 use role sysadmin;
+
+GRANT OWNERSHIP ON DATABASE test_db TO ROLE sysadmin COPY CURRENT GRANTS;    
+GRANT OWNERSHIP ON ALL SCHEMAS IN DATABASE test_db TO ROLE sysadmin COPY CURRENT GRANTS;
+GRANT OWNERSHIP ON ALL TABLES IN DATABASE test_db TO ROLE sysadmin COPY CURRENT GRANTS; 
+GRANT OWNERSHIP ON ALL VIEWS IN DATABASE test_db TO ROLE sysadmin COPY CURRENT GRANTS; 
 
 
 CREATE or REPLACE STAGE TESLA_DATA_STAGE_SYSADMIN
