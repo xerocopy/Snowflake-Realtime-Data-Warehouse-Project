@@ -128,7 +128,7 @@ TYPE = EXTERNAL_STAGE
 STORAGE_PROVIDER = S3
 STORAGE_AWS_ROLE_ARN = 'arn:aws:iam::516003265142:role/Snowflake_Access_Role'
 ENABLED =TRUE
-STORAGE_ALLOWED_LOCATIONS = ('s3://snowflakecomputing-123/Input/');
+STORAGE_ALLOWED_LOCATIONS = ('s3://snowflakecomputingpro-123/Input/');
 
 desc integration S3_INTEGRATION_SYSADMIN;
 
@@ -153,5 +153,19 @@ desc integration S3_INTEGRATION_SYSADMIN;
     ]
 }
 
+
+--switch to sysadmin
+use role accountadmin;
+GRANT CREATE INTEGRATION on account to role sysadmin;
+
+
+CREATE or REPLACE STAGE TESLA_DATA_STAGE_SYSADMIN
+URL = 's3://snowflakecomputingpro-123/Input/TSLA.csv'
+STORAGE_INTEGRATION = S3_INTEGRATION_SYSADMIN
+FILE_FORMAT = CSV_FORMAT;
+
+list @TESLA_DATA_STAGE;
+
+SELECT * FROM TESLA_DATA;
 
 
