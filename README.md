@@ -133,7 +133,25 @@ STORAGE_ALLOWED_LOCATIONS = ('s3://snowflakecomputing-123/Input/');
 desc integration S3_INTEGRATION_SYSADMIN;
 
 
+--update STORAGE_AWS_IAM_USER_ARN & STORAGE_AWS_EXTERNAL_ID in aws role trust relationship policy
 
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::079828672386:user/jfa10000-s"
+            },
+            "Action": "sts:AssumeRole",
+            "Condition": {
+                "StringEquals": {
+                    "sts:ExternalId": "JDB80709_SFCRole=2_Ikdsa02Hha74XLCVqHiDiLKmgfI="
+                }
+            }
+        }
+    ]
+}
 
 
 
