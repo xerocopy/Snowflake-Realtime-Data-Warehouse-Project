@@ -158,6 +158,10 @@ desc integration S3_INTEGRATION_SYSADMIN;
 use role accountadmin;
 GRANT CREATE INTEGRATION on account to role sysadmin;
 
+GRANT ALL ON ACCOUNT TO ROLE sysadmin
+
+use role sysadmin;
+
 
 CREATE or REPLACE STAGE TESLA_DATA_STAGE_SYSADMIN
 URL = 's3://snowflakecomputingpro-123/Input/TSLA.csv'
