@@ -9,7 +9,8 @@ wherein each node in the cluster stores a part of the whole data set locally, li
 shared-nothing architectures. This method combines the simplicity of a shared-disk
 design with the speed and scale-out advantages of a shared-nothing architecture.
 
-Technology in project: AWS S3, SnowFlake, SnowSQL, QuickSight
+### Technologies used in project: 
+AWS S3, SnowFlake, SnowSQL, QuickSight, Airflow Cluster, Kinesis
 
 
 ### Data Pipeline Architecture
