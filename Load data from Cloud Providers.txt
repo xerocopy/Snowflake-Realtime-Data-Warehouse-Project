@@ -1,0 +1,100 @@
+--Create Tesla_Data table
+CREATE DATABASE TEST_DB;
+
+Use test_db;
+
+CREATE TABLE TESLA_DATA (
+  Date date,
+  Open_value double,
+  High_value double,
+  Low_value double,
+  Close_value  double,
+  Adj_Close double,
+  volume bigint
+  );
+  
+  
+--Create External S3 Stage
+CREATE OR REPLACE STAGE BULK_COPY_TESLA_STAGE URL='S3://SNOWFLAKECOMPUTINGPRO/TSLA.CSV'
+CREDENTIALS=(AWS_KEY_ID='<your AWS key>' AWS_SECRET_KEY='<Your Secret Key>');
+  
+--List content of stage
+
+LIST @BULK_COPY_TESLA_STAGE;
+
+--Copy data from stage into table
+  
+COPY INTO TESLA_DATA
+FROM @BULK_COPY_TESLA_STAGE
+FILE_FORMAT = (TYPE = CSV FIELD_DELIMITER = ',' SKIP_HEADER = 1);
+  
+--Read data from table  
+  
+SELECT * FROM TESLA_DATA;  
+
+
+------Using Storage Integration
+--Create IAM Policy
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:PutObject",
+                "s3:GetObject",
+                "s3:GetObjectVersion",
+                "s3:DeleteObject",
+                "s3:DeleteObjectVersion"
+            ],
+            "Resource": "arn:aws:s3:::snowflakecomputingpro/Input/*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "s3:ListBucket",
+            "Resource": "arn:aws:s3:::snowflakecomputingpro",
+            "Condition": {
+                "StringLike": {
+                    "s3:prefix": [
+                        "Input/*"
+                    ]
+                }
+            }
+        }
+    ]
+}
+
+--Grant Prev to another role apart from Account Admin
+
+GRANT CREATE INTEGRATION on account to role sysadmin;
+
+--Create Storage Integration
+
+CREATE STORAGE INTEGRATION S3_INTEGRATION
+  TYPE = EXTERNAL_STAGE
+  STORAGE_PROVIDER = S3
+  STORAGE_AWS_ROLE_ARN = 'arn:aws:iam::191015975005:role/Testsnowflakerole'
+  ENABLED = TRUE
+  STORAGE_ALLOWED_LOCATIONS = ('s3://snowflakecomputingpro/Input/');
+  
+--Describe Integration to fetch ARN and External ID
+
+DESC INTEGRATION S3_INTEGRATION;
+
+--Create Stage with Storage INTEGRATION
+
+CREATE STAGE TESLA_DATA_STAGE
+  URL='s3://snowflakecomputingpro/Input/*.csv'
+  STORAGE_INTEGRATION = S3_INTEGRATION;
+  FILE_FORMAT=CSV_FORMAT;
+  
+  
+--Load data into table from Stage
+COPY INTO TESLA_DATA
+  FROM @TESLA_DATA_STAGE
+  PATTERN='.*.csv'; 
+  
+  
+
+  
