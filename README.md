@@ -12,15 +12,27 @@ design with the speed and scale-out advantages of a shared-nothing architecture.
 Technology in project: AWS S3, SnowFlake, SnowSQL, QuickSight
 
 
-### Data Pipeling Architecture
+### Data Pipeline Architecture
 
+VPC Framework
 ![alt text](https://github.com/xerocopy/Snowflake-Real-Time-Data-Warehouse-Project/blob/9b0579f1056d8fb8a0bd14ba7d33bed2801a7d55/pic0.PNG)
 
-
+Data Flow in Snowflake
 ![alt text](https://github.com/xerocopy/Snowflake-Real-Time-Data-Warehouse-Project/blob/c22b480a6ed855dc44a5487cf40d77aaaebc3a58/pic1.PNG)
 
-
+Snow Flake Pipeline Architecture
 ![alt text](https://github.com/xerocopy/Snowflake-Real-Time-Data-Warehouse-Project/blob/c22b480a6ed855dc44a5487cf40d77aaaebc3a58/pic2.PNG)
+
+
+### Loading Bulk data from Cloud & Local Storage
+
+1. Prepare the files into a format that is optimal for loading;
+
+2. Stage the data - Make snowflake aware of the data. Internal or external staging area.
+
+3. Excute Copy command - COPY the data into the table
+
+4. Managing regular loads -Organize files & schedule loads
 
 
 ### snowsql installation and setup
@@ -97,17 +109,19 @@ copy into mycsvtable
 
 
 
-### Automated data injection from S3 using snowflake web interface
+### Data Load from aws S3 using snowflake web interface
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+--set up db
 
---set up db and empty table
-
---Create Tesla_Data table
 CREATE DATABASE TEST_DB;
 
 use test_db;
 
+--empty table
+
 DROP TABLE IF EXISTS TESLA_DATA;
 
+--Create Tesla_Data table
 CREATE TABLE TESLA_DATA (
     Date            date,
     Open_value      double,
@@ -118,13 +132,11 @@ CREATE TABLE TESLA_DATA (
     volume          bigint
     );
 
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 
 
 
-
-
-
---Bulk_Copy_manual
+--Bulk_Copy Batch_load
 
 select * from tesla_data;
     
@@ -144,11 +156,9 @@ FILE_FORMAT = (TYPE = CSV FIELD_DELIMITER = ',' SKIP_HEADER = 1);
 SELECT * FROM TESLA_DATA LIMIT 10;
 
 
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 
-
-
-
--- Set up Automation
+-- Set up Automation  Continous_Load
 
 //use role accountadmin;
 
@@ -165,7 +175,6 @@ STORAGE_ALLOWED_LOCATIONS = ('s3://snowflakecomputingpro-123/Input/');
 
 --need to check the updated exteranalID after creating the new integration
 desc integration S3_INTEGRATION_SYSADMIN;
-
 
 CREATE or REPLACE STAGE TESLA_DATA_STAGE_SYSADMIN
 URL = 's3://snowflakecomputingpro-123/Input/'
@@ -187,15 +196,9 @@ FILE_FORMAT = CSV_FORMAT;
 
 SHOW PIPES;
 
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 
-
-
-
-
-
-
-
---switch to sysadmin and set up the correct role in snowflake
+--switch to sysadmin and set up the correct role in snowflake when necessary
 use role accountadmin;
 GRANT CREATE INTEGRATION on account to role sysadmin;
 
