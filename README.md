@@ -2,10 +2,14 @@
 
 
 
-#### a few steps missing (update later) 
+#### Scope of the Project
 
-#### a fewo steps missing (update later)
+#### Data Pipeling Architecture
 
+![alt text](https://github.com/xerocopy/Snowflake-Real-Time-Data-Warehouse-Project/blob/c22b480a6ed855dc44a5487cf40d77aaaebc3a58/pic1.PNG)
+
+
+![alt text](https://github.com/xerocopy/Snowflake-Real-Time-Data-Warehouse-Project/blob/c22b480a6ed855dc44a5487cf40d77aaaebc3a58/pic2.PNG)
 
 
 #### snowsql installation and setup
