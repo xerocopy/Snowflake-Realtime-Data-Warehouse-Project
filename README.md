@@ -84,7 +84,10 @@ copy into mycsvtable
 
 #### In snowflake web interface/worksheet
 
-Use test_db;
+--set up db and empty table
+use test_db;
+
+DROP TABLE IF EXISTS TESLA_DATA;
 
 CREATE TABLE TESLA_DATA (
     Date            date,
@@ -96,11 +99,18 @@ CREATE TABLE TESLA_DATA (
     volume          bigint
     );
 
---Creat External S3 storage
+
+
+
+
+
+
+--Bulk_Copy_manual
+
+select * from tesla_data;
+    
 CREATE OR REPLACE STAGE BULK_COPY_TESLA_STAGE URL="s3://snowflakecomputingpro-123/TSLA.csv"
-
-CREDENTIALS=(AWS_KEY_ID='************' AWS_SECRET_KEY='**********'); 
-
+CREDENTIALS=(AWS_KEY_ID='*****************' AWS_SECRET_KEY='******************************'); 
 
 --List the content of the stage
 
@@ -112,78 +122,44 @@ COPY INTO TESLA_DATA
 FROM @BULK_COPY_TESLA_STAGE
 FILE_FORMAT = (TYPE = CSV FIELD_DELIMITER = ',' SKIP_HEADER = 1);
 
+SELECT * FROM TESLA_DATA LIMIT 10;
 
-select * from TESLA_DATA limit 10;
 
 
-use role accountadmin;
 
-GRANT CREATE INTEGRATION on account to role accountadmin;
-GRANT USAGE on S3_INTEGRATION to ROLE ACCOUNTADMIN;
 
+
+-- Set up Automation
+
+//use role accountadmin;
+
+//GRANT CREATE INTEGRATION on account to role accountadmin;
+//GRANT USAGE on S3_INTEGRATION to ROLE ACCOUNTADMIN;
 
 --Create Storage Integration
 CREATE or replace STORAGE INTEGRATION S3_INTEGRATION_SYSADMIN
 TYPE = EXTERNAL_STAGE
 STORAGE_PROVIDER = S3
-STORAGE_AWS_ROLE_ARN = 'arn:aws:iam::516003265142:role/Snowflake_Access_Role'
+STORAGE_AWS_ROLE_ARN = 'arn:aws:iam::***************:role/Snowflake_Access_Role'
 ENABLED =TRUE
 STORAGE_ALLOWED_LOCATIONS = ('s3://snowflakecomputingpro-123/Input/');
 
+--need to check the updated exteranalID after creating the new integration
 desc integration S3_INTEGRATION_SYSADMIN;
 
 
---update STORAGE_AWS_IAM_USER_ARN & STORAGE_AWS_EXTERNAL_ID in aws role trust relationship policy
-
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Principal": {
-                "AWS": "arn:aws:iam::079828672386:user/jfa10000-s"
-            },
-            "Action": "sts:AssumeRole",
-            "Condition": {
-                "StringEquals": {
-                    "sts:ExternalId": "JDB80709_SFCRole=2_Ikdsa02Hha74XLCVqHiDiLKmgfI="
-                }
-            }
-        }
-    ]
-}
-
-
---switch to sysadmin grant all previliges
-use role accountadmin;
-GRANT CREATE INTEGRATION on account to role sysadmin;
-
-GRANT ALL ON ACCOUNT TO ROLE sysadmin
-
-use role sysadmin;
-
-GRANT OWNERSHIP ON DATABASE test_db TO ROLE sysadmin COPY CURRENT GRANTS;    
-GRANT OWNERSHIP ON ALL SCHEMAS IN DATABASE test_db TO ROLE sysadmin COPY CURRENT GRANTS;
-GRANT OWNERSHIP ON ALL TABLES IN DATABASE test_db TO ROLE sysadmin COPY CURRENT GRANTS; 
-GRANT OWNERSHIP ON ALL VIEWS IN DATABASE test_db TO ROLE sysadmin COPY CURRENT GRANTS; 
-
-
 CREATE or REPLACE STAGE TESLA_DATA_STAGE_SYSADMIN
-URL = 's3://snowflakecomputingpro-123/Input/TSLA.csv'
+URL = 's3://snowflakecomputingpro-123/Input/'
 STORAGE_INTEGRATION = S3_INTEGRATION_SYSADMIN
 FILE_FORMAT = CSV_FORMAT;
 
-list @TESLA_DATA_STAGE;
+list @TESLA_DATA_STAGE_SYSADMIN;
 
-SELECT * FROM TESLA_DATA;
+SELECT * FROM TESLA_DATA order by date desc LIMIT 10;
 
 COPY INTO TESLA_DATA
 FROM @TESLA_DATA_STAGE_SYSADMIN
 PATTERN = '.*.csv';
-
-
-
--- snowpipe
 
 CREATE or REPLACE pipe TESLA_PIPE_TEST AUTO_INGEST = TRUE as 
 COPY INTO TEST_DB.PUBLIC.TESLA_DATA
@@ -191,5 +167,35 @@ FROM @TESLA_DATA_STAGE_SYSADMIN
 FILE_FORMAT = CSV_FORMAT;
 
 SHOW PIPES;
+
+
+
+
+
+
+
+
+
+--switch to sysadmin and set up the correct role in snowflake
+use role accountadmin;
+GRANT CREATE INTEGRATION on account to role sysadmin;
+
+GRANT USAGE ON DATABASE TEST_DB TO SYSADMIN
+
+GRANT ALL ON WAREHOUSE TEST_WH TO ROLE sysadmin
+
+GRANT ALL ON ACCOUNT TO ROLE sysadmin
+
+GRANT OWNERSHIP ON DATABASE test_db TO ROLE sysadmin COPY CURRENT GRANTS;    
+GRANT OWNERSHIP ON ALL SCHEMAS IN DATABASE test_db TO ROLE sysadmin COPY CURRENT GRANTS;
+GRANT OWNERSHIP ON ALL TABLES IN DATABASE test_db TO ROLE sysadmin COPY CURRENT GRANTS; 
+GRANT OWNERSHIP ON ALL VIEWS IN DATABASE test_db TO ROLE sysadmin COPY CURRENT GRANTS; 
+
+use role sysadmin
+
+SHOW SCHEMAS IN DATABASE test_db;
+
+
+
 
 
