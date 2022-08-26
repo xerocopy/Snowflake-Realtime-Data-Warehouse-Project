@@ -19,7 +19,7 @@ https://sfc-repo.snowflakecomputing.com/snowsql/bootstrap/1.2/windows_x86_64/ind
 3. change Configureation file under username/.snowsql.cnf
 [connections.myconnection]
 #Can be used in SnowSql as #connect example
-accountname = JDB80709.us-east-1
+accountname = ASD123456.us-east-1
 username = XEROCOPY
 password = *******
 
