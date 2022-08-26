@@ -110,7 +110,9 @@ copy into mycsvtable
 
 
 ### Data Load from aws S3 using snowflake web interface
+
 &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
 --set up db
 
 CREATE DATABASE TEST_DB;
@@ -134,8 +136,6 @@ CREATE TABLE TESLA_DATA (
 
 &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 
-
-
 --Bulk_Copy Batch_load
 
 select * from tesla_data;
@@ -154,7 +154,6 @@ FROM @BULK_COPY_TESLA_STAGE
 FILE_FORMAT = (TYPE = CSV FIELD_DELIMITER = ',' SKIP_HEADER = 1);
 
 SELECT * FROM TESLA_DATA LIMIT 10;
-
 
 &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 
