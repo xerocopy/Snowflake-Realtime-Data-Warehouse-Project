@@ -13,6 +13,8 @@ Technology in project: AWS S3, SnowFlake, SnowSQL, QuickSight
 
 
 ### Data Pipeline Architecture
+Overall Architecture
+![alt text](https://github.com/xerocopy/Snowflake-Real-Time-Data-Warehouse-Project/blob/af2a3b3f02a3809eef11e01005816a186d1e88fe/pipeline_architecture.PNG)
 
 VPC Framework
 ![alt text](https://github.com/xerocopy/Snowflake-Real-Time-Data-Warehouse-Project/blob/9b0579f1056d8fb8a0bd14ba7d33bed2801a7d55/pic0.PNG)
