@@ -2,9 +2,9 @@
 
 
 
-#### Scope of the Project
+### Scope of the Project
 
-#### Data Pipeling Architecture
+### Data Pipeling Architecture
 
 ![alt text](https://github.com/xerocopy/Snowflake-Real-Time-Data-Warehouse-Project/blob/c22b480a6ed855dc44a5487cf40d77aaaebc3a58/pic1.PNG)
 
@@ -12,7 +12,7 @@
 ![alt text](https://github.com/xerocopy/Snowflake-Real-Time-Data-Warehouse-Project/blob/c22b480a6ed855dc44a5487cf40d77aaaebc3a58/pic2.PNG)
 
 
-#### snowsql installation and setup
+### snowsql installation and setup
 
 1. find the installation instructions at:
 https://docs.snowflake.com/en/user-guide/snowsql-install-config.html#installing-snowsql-on-microsoft-windows-using-the-installer
@@ -31,7 +31,7 @@ password = *******
 snowsql -c myconnection
 
 
-#### load data using snowsql 
+### load data using snowsql 
 1. snowsql -c myconnection  
 
 2. use test_db;
@@ -86,9 +86,13 @@ copy into mycsvtable
 
 
 
-#### In snowflake web interface/worksheet
+### Automated data injection from S3 using snowflake web interface
 
 --set up db and empty table
+
+--Create Tesla_Data table
+CREATE DATABASE TEST_DB;
+
 use test_db;
 
 DROP TABLE IF EXISTS TESLA_DATA;
