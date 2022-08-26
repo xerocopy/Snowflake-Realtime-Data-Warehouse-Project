@@ -12,6 +12,8 @@ design with the speed and scale-out advantages of a shared-nothing architecture.
 ### Technologies used in project: 
 AWS S3, SnowFlake, SnowSQL, QuickSight, Airflow Cluster, Kinesis
 
+### Role created in IAM
+SNOWFLAKE_ACCESS_ROLE
 
 ### Data Pipeline Architecture
 Overall Architecture
