@@ -1,10 +1,21 @@
 # Snowflake-Real-Time-Data-Warehouse-Project
 
-
-
 ### Scope of the Project
+Snowflake is on serverless cloud infrastructure.  The architecture of Snowflake is a mix of classic shared-disk and shared-nothing
+database designs. Snowflake employs a central data repository for persistent data, like
+shared-disk architectures, available from all compute nodes in the platform. Snowflake
+executes queries utilizing MPP (massively parallel processing) compute clusters,
+wherein each node in the cluster stores a part of the whole data set locally, like
+shared-nothing architectures. This method combines the simplicity of a shared-disk
+design with the speed and scale-out advantages of a shared-nothing architecture.
+
+Technology in project: AWS S3, SnowFlake, SnowSQL, QuickSight
+
 
 ### Data Pipeling Architecture
+
+![alt text](https://github.com/xerocopy/Snowflake-Real-Time-Data-Warehouse-Project/blob/c22b480a6ed855dc44a5487cf40d77aaaebc3a58/pic0.PNG)
+
 
 ![alt text](https://github.com/xerocopy/Snowflake-Real-Time-Data-Warehouse-Project/blob/c22b480a6ed855dc44a5487cf40d77aaaebc3a58/pic1.PNG)
 
