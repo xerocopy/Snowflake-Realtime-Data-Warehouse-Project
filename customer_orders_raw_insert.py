@@ -111,6 +111,4 @@ snowflake_order_customers_small_transformation = SnowflakeOperator(
     role="PRO_DEVELOPER_ROLE",
 )
 
-[task_orders_landing_to_processing >> snowflake_orders_sql_str >> task_orders_processing_to_processed,
-task_customer_landing_to_processing >> snowflake_customers_sql_str >> task_customers_processing_to_processed]
->> snowflake_order_customers_small_transformation >> post_task
+[task_orders_landing_to_processing >> snowflake_orders_sql_str >> task_orders_processing_to_processed,task_customer_landing_to_processing >> snowflake_customers_sql_str >> task_customers_processing_to_processed] >> snowflake_order_customers_small_transformation >> post_task
