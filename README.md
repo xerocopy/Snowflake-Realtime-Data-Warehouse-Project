@@ -14,6 +14,8 @@ AWS S3, SnowFlake, SnowSQL, QuickSight, Airflow (Amazon Managed Workflows for Ap
 
 ### Role created in IAM
 SNOWFLAKE_ACCESS_ROLE
+AmazonMWAA-SNOWFLAKEDATAPIPELINEGPRO-123
+
 
 ### Data Pipeline Architecture
 Overall Architecture
