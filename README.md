@@ -26,6 +26,11 @@ data - test data for first dag
 
 ### Data Pipeline Architecture
 Overall Architecture
+![alt text](https://github.com/xerocopy/Snowflake-Real-Time-Data-Warehouse-Project/blob/03ca51e929bdf9a9512c5fd3adfbe3536faaee46/Snowflake_Airflow_DataPipeline_Architecture.jpg)
+
+
+Part-1 architecture
+
 ![alt text](https://github.com/xerocopy/Snowflake-Real-Time-Data-Warehouse-Project/blob/af2a3b3f02a3809eef11e01005816a186d1e88fe/pipeline_architecture.PNG)
 
 VPC Framework
