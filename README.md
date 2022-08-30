@@ -14,7 +14,14 @@ AWS S3, SnowFlake, SnowSQL, QuickSight, Airflow (Amazon Managed Workflows for Ap
 
 ### Role created in IAM
 SNOWFLAKE_ACCESS_ROLE
+
 AmazonMWAA-SNOWFLAKEDATAPIPELINEGPRO-123
+
+### List of Assets
+Dags.py
+requirements.txt
+sql
+data - test data for first dag
 
 
 ### Data Pipeline Architecture
@@ -296,9 +303,6 @@ COPY INTO PRO_DB.PRO_SCHEMA.ORDERS_RAW
 (O_ORDERKEY , O_CUSTKEY, O_ORDERSTATUS, O_TOTALPRICE, O_ORDERDATE, O_ORDERPRIORITY, O_CLERK, O_SHIPPRIORITY, O_COMMENT, BATCH_ID)
 FROM (SELECT t.$1, t.$2, t.$3, t.$4, t.$5, t.$6, t.$7, t.$8, t.$9, '20220826160201' FROM @ORDERS_RAW_STAGE t);
 
-
-
-### List of files in the repository
 
 
 
