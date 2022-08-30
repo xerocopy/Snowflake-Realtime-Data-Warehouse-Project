@@ -29,19 +29,6 @@ Overall Architecture
 ![alt text](https://github.com/xerocopy/Snowflake-Real-Time-Data-Warehouse-Project/blob/03ca51e929bdf9a9512c5fd3adfbe3536faaee46/Snowflake_Airflow_DataPipeline_Architecture.jpg)
 
 
-Data Pipeline Architecture
-![alt text](https://github.com/xerocopy/Snowflake-Real-Time-Data-Warehouse-Project/blob/af2a3b3f02a3809eef11e01005816a186d1e88fe/pipeline_architecture.PNG)
-
-VPC Framework in MWAA
-![alt text](https://github.com/xerocopy/Snowflake-Real-Time-Data-Warehouse-Project/blob/9b0579f1056d8fb8a0bd14ba7d33bed2801a7d55/pic0.PNG)
-
-Data Flow in Snowflake
-![alt text](https://github.com/xerocopy/Snowflake-Real-Time-Data-Warehouse-Project/blob/c22b480a6ed855dc44a5487cf40d77aaaebc3a58/pic1.PNG)
-
-Snow Flake Pipelines
-![alt text](https://github.com/xerocopy/Snowflake-Real-Time-Data-Warehouse-Project/blob/c22b480a6ed855dc44a5487cf40d77aaaebc3a58/pic2.PNG)
-
-
 ### Loading Bulk data from Cloud & Local Storage
 
 1. Prepare the files into a format that is optimal for loading;
