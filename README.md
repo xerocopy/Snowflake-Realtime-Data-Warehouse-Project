@@ -10,11 +10,10 @@ shared-nothing architectures. This method combines the simplicity of a shared-di
 design with the speed and scale-out advantages of a shared-nothing architecture.
 
 ### Technologies used in project: 
-AWS S3, SnowFlake, SnowSQL, QuickSight, Airflow (Amazon Managed Workflows for Apach Airflow(MWAA)), Kinesis
+AWS IAM, S3, SnowFlake, SnowSQL, QuickSight, Airflow (Amazon Managed Workflows for Apach Airflow(MWAA)), Kinesis FireHose
 
 ### Role created in IAM
 SNOWFLAKE_ACCESS_ROLE
-
 AmazonMWAA-SNOWFLAKEDATAPIPELINEGPRO-123
 
 ### List of Assets
@@ -23,13 +22,11 @@ requirements.txt
 sql
 data - test data for first dag
 
-
 ### Data Pipeline Architecture
 Overall Architecture
 ![alt text](https://github.com/xerocopy/Snowflake-Real-Time-Data-Warehouse-Project/blob/03ca51e929bdf9a9512c5fd3adfbe3536faaee46/Snowflake_Airflow_DataPipeline_Architecture.jpg)
 
-
-### Loading Bulk data from Cloud & Local Storage
+### General Steps Loading Bulk data from Cloud & Local Storage
 
 1. Prepare the files into a format that is optimal for loading;
 
@@ -39,8 +36,11 @@ Overall Architecture
 
 4. Managing regular loads -Organize files & schedule loads
 
+### Set Up S3 Buckets
 
-### snowsql installation and setup
+### Set Up Kinesis FireHose
+
+### Snow SQL installation and setup
 
 1. find the installation instructions at:
 https://docs.snowflake.com/en/user-guide/snowsql-install-config.html#installing-snowsql-on-microsoft-windows-using-the-installer
@@ -58,7 +58,6 @@ password = *******
 4. firt time setup with command:
 snowsql -c myconnection
 
-
 ### load data using snowsql and run the SnowSQL-Command.txt
 run the SQL queries in SnowSQL-Command.txt
 
@@ -69,6 +68,7 @@ run the SQL in the snowpile_ETL_TEST_DB.txt file
 
 run the SQL in the snowpipe_ETL_PRO_DB.txt file
 
+### Set Up Apache Airflow in AWS
 
-
+### Set Up QuickSight
 
