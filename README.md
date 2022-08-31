@@ -51,7 +51,7 @@ https://sfc-repo.snowflakecomputing.com/snowsql/bootstrap/1.2/windows_x86_64/ind
 3. change Configureation file under username/.snowsql.cnf
 [connections.myconnection]
 #Can be used in SnowSql as #connect example
-accountname = ASD123456.us-east-1
+accountname = ABC123456.us-east-1
 username = XEROCOPY
 password = *******
 
@@ -59,59 +59,7 @@ password = *******
 snowsql -c myconnection
 
 
-### load data using snowsql 
-1. snowsql -c myconnection  
-
-2. use test_db;
-
-3. SELECT * FROM CUSTOMER_DETAIL LIMIT 10;
-
-4. Create PIPE FORMAT
-
-create or replace file format PIPE_FORMAT_CLI
-  type = 'CSV'  
-  field_delimiter = '|'  
-  skip_header = 1;
-  
-5. Create state for snowflake
-
-create or replace stage PIPE_CLI_STAGE
-file_format = PIPE_FORMAT_CLI;
-  
-6. Put customer_detail csv in stage. Snowflake will load the table from this stage
-
-put
-file://C:\Users\jingc\Downloads\Snowflake_Real-Time_Data_Warehouse_Project_forBeginners-1\Data\teslaData\customer_detail.csv
-@PIPE_CLI_STAGE auto_compress=true;
-
-7. List stage to see how many files are loaded in stage
-
-list @PIPE_CLI_STAGE;
-
-
-8. Resume warehouse. In our case warehouse is set to auto-resume so no need to run this command. 
-
-alter warehouse test_wh resume;
-alter warehouse compute_wh resume;
-
-9. Finally copy command to load dat int table from stage
-
-copy into customer_detail
-  from @PIPE_CLI_STAGE
-  file_format = (format_name = PIPE_FORMAT_CLI)
-  on_error = 'skip_file';
- 
-select * from customer_detail;  # to check the table content
-  
- 
-10. We can also give copy command with pattern if your stage contain multile files.
- 
-copy into mycsvtable
-  from @my_csv_stage
-  file_format = (format_name = mycsvformat)
-  pattern = '.*contacts[1-5].csv.gz'
-  on_error = 'skip_file';
-
+### load data using snowsql and run the SnowSQL-Command.txt
 
 
 ### Data Load from aws S3 using snowflake web interface
@@ -224,81 +172,9 @@ SHOW SCHEMAS IN DATABASE test_db;
 
 
 
-## Part 2
+## Part 2 ETL 1 from S3 landing--> processing--> processed 
 
-CREATE DATABASE PRO_DB;
-
-USE PRO_DB
-
-CREATE SCHEMA PRO_SCHEMA;
-
-CREATE WAREHOUSE PRO_CURATION WITH WAREHOUSE_SIZE = 'XSMALL' WAREHOUSE_TYPE = 'STANDARD' AUTO_SUSPEND = 600 AUTO_RESUME = TRUE;
-
-
-DROP TABLE IF EXISTS CUSTOMER_RAW;
-CREATE TABLE CUSTOMER_RAW (C_CUSTKEY NUMBER(38,0),
-                           C_NAME VARCHAR(25),
-                           C_ADDRESS VARCHAR(40),
-                           C_NATIONKEY NUMBER(38,0),
-                           C_PHONE VARCHAR(15),
-                           C_ACCTBAL NUMBER(12,2),
-                           C_MKTSEGMENT VARCHAR(10),
-                           C_COMMENT VARCHAR(117),
-                           BATCH_ID DOUBLE
-                           );
-
-DROP TABLE IF EXISTS ORDERS_RAW;
-CREATE TABLE ORDERS_RAW (O_ORDERKEY NUMBER(38,0),
-                         O_CUSTKEY NUMBER(38,0),
-                         O_ORDERSTATUS VARCHAR(1),
-                         O_TOTALPRICE NUMBER(12,2),
-                         O_ORDERDATE DATE,
-                         O_ORDERPRIORITY VARCHAR(15),
-                         O_CLERK VARCHAR(15),
-                         O_SHIPPRIORITY NUMBER(38,0),
-                         O_COMMENT VARCHAR(79),
-                         BATCH_ID DOUBLE
-                         );
-
-USE PRO_DB.PRO_SCHEMA;
-
-SELECT * FROM ORDERS_RAW;
-
-SELECT * FROM CUSTOMER_RAW;
-
-CREATE OR REPLACE STORAGE INTEGRATION S3_INTEGRATION_PRO
-    TYPE = EXTERNAL_STAGE
-    STORAGE_PROVIDER = S3
-    STORAGE_AWS_ROLE_ARN = 'arn:aws:iam::516003265142:role/Snowflake_Access_Role'
-    ENABLED = TRUE
-    STORAGE_ALLOWED_LOCATIONS = ('s3://snowflakedatapipelinepro-123/firehose/');
-
-DESC INTEGRATION S3_INTEGRATION_PRO
-
-CREATE OR REPLACE STAGE CUSTOMER_RAW_STAGE
-    URL = 's3://snowflakedatapipelinepro-123/firehose/customers/'
-    STORAGE_INTEGRATION = S3_INTEGRATION_PRO
-    FILE_FORMAT=CSV_FORMAT;
-    
-CREATE OR REPLACE STAGE ORDERS_RAW_STAGE
-    URL = 's3://snowflakedatapipelinepro-123/firehose/orders/'
-    STORAGE_INTEGRATION = S3_INTEGRATION_PRO
-    FILE_FORMAT=CSV_FORMAT;
-
-COPY INTO PRO_DB.PRO_SCHEMA.CUSTOMER_RAW
-(C_CUSTKEY, C_NAME, C_ADDRESS, C_NATIONKEY, C_PHONE, C_ACCTBAL, C_MKTSEGMENT, C_COMMENT, BATCH_ID) 
-FROM (SELECT t.$1, t.$2, t.$3, t.$4, t.$5, t.$6, t.$7, t.$8, '20220826160201' FROM @CUSTOMER_RAW_STAGE t);
-
-
-COPY INTO PRO_DB.PRO_SCHEMA.ORDERS_RAW
-(O_ORDERKEY , O_CUSTKEY, O_ORDERSTATUS, O_TOTALPRICE, O_ORDERDATE, O_ORDERPRIORITY, O_CLERK, O_SHIPPRIORITY, O_COMMENT, BATCH_ID)
-FROM (SELECT t.$1, t.$2, t.$3, t.$4, t.$5, t.$6, t.$7, t.$8, t.$9, '20220826160201' FROM @ORDERS_RAW_STAGE t);
-
-
-
-
-
-
+run the SQL in the snowpipe_ETL_PRO_DB.txt file
 
 
 
