@@ -60,119 +60,12 @@ snowsql -c myconnection
 
 
 ### load data using snowsql and run the SnowSQL-Command.txt
-
+run the SQL queries in SnowSQL-Command.txt
 
 ### Data Load from aws S3 using snowflake web interface
+run the SQL in the snowpile_ETL_TEST_DB.txt file
 
-&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-
---set up db
-
-CREATE DATABASE TEST_DB;
-
-use test_db;
-
---empty table
-
-DROP TABLE IF EXISTS TESLA_DATA;
-
---Create Tesla_Data table
-CREATE TABLE TESLA_DATA (
-    Date            date,
-    Open_value      double,
-    High_value      double,
-    Low_value       double,
-    Close_value     double,
-    Adj_Close       double,
-    volume          bigint
-    );
-
-&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-
---Bulk_Copy Batch_load
-
-select * from tesla_data;
-    
-CREATE OR REPLACE STAGE BULK_COPY_TESLA_STAGE URL="s3://snowflakecomputingpro-123/TSLA.csv"
-CREDENTIALS=(AWS_KEY_ID='*****************' AWS_SECRET_KEY='******************************'); 
-
---List the content of the stage
-
-LIST @BULK_COPY_TESLA_STAGE;
-
---Copy data from table
-
-COPY INTO TESLA_DATA
-FROM @BULK_COPY_TESLA_STAGE
-FILE_FORMAT = (TYPE = CSV FIELD_DELIMITER = ',' SKIP_HEADER = 1);
-
-SELECT * FROM TESLA_DATA LIMIT 10;
-
-&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-
--- Set up Automation  Continous_Load
-
-//use role accountadmin;
-
-//GRANT CREATE INTEGRATION on account to role accountadmin;
-//GRANT USAGE on S3_INTEGRATION to ROLE ACCOUNTADMIN;
-
---Create Storage Integration
-CREATE or replace STORAGE INTEGRATION S3_INTEGRATION_SYSADMIN
-TYPE = EXTERNAL_STAGE
-STORAGE_PROVIDER = S3
-STORAGE_AWS_ROLE_ARN = 'arn:aws:iam::***************:role/Snowflake_Access_Role'
-ENABLED =TRUE
-STORAGE_ALLOWED_LOCATIONS = ('s3://snowflakecomputingpro-123/Input/');
-
---need to check the updated exteranalID after creating the new integration
-desc integration S3_INTEGRATION_SYSADMIN;
-
-CREATE or REPLACE STAGE TESLA_DATA_STAGE_SYSADMIN
-URL = 's3://snowflakecomputingpro-123/Input/'
-STORAGE_INTEGRATION = S3_INTEGRATION_SYSADMIN
-FILE_FORMAT = CSV_FORMAT;
-
-list @TESLA_DATA_STAGE_SYSADMIN;
-
-SELECT * FROM TESLA_DATA order by date desc LIMIT 10;
-
-COPY INTO TESLA_DATA
-FROM @TESLA_DATA_STAGE_SYSADMIN
-PATTERN = '.*.csv';
-
-CREATE or REPLACE pipe TESLA_PIPE_TEST AUTO_INGEST = TRUE as 
-COPY INTO TEST_DB.PUBLIC.TESLA_DATA
-FROM @TESLA_DATA_STAGE_SYSADMIN
-FILE_FORMAT = CSV_FORMAT;
-
-SHOW PIPES;
-
-&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-
---switch to sysadmin and set up the correct role in snowflake when necessary
-use role accountadmin;
-GRANT CREATE INTEGRATION on account to role sysadmin;
-
-GRANT USAGE ON DATABASE TEST_DB TO SYSADMIN
-
-GRANT ALL ON WAREHOUSE TEST_WH TO ROLE sysadmin
-
-GRANT ALL ON ACCOUNT TO ROLE sysadmin
-
-GRANT OWNERSHIP ON DATABASE test_db TO ROLE sysadmin COPY CURRENT GRANTS;    
-GRANT OWNERSHIP ON ALL SCHEMAS IN DATABASE test_db TO ROLE sysadmin COPY CURRENT GRANTS;
-GRANT OWNERSHIP ON ALL TABLES IN DATABASE test_db TO ROLE sysadmin COPY CURRENT GRANTS; 
-GRANT OWNERSHIP ON ALL VIEWS IN DATABASE test_db TO ROLE sysadmin COPY CURRENT GRANTS; 
-
-use role sysadmin
-
-SHOW SCHEMAS IN DATABASE test_db;
-
-
-
-
-## Part 2 ETL 1 from S3 landing--> processing--> processed 
+### Part 2 ETL 1 from S3 landing--> processing--> processed 
 
 run the SQL in the snowpipe_ETL_PRO_DB.txt file
 
