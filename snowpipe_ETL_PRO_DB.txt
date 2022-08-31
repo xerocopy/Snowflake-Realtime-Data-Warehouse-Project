@@ -1,3 +1,8 @@
+warehouse="PRO_CURATION"
+database="PRO_DB",
+schema="PRO_SCHEMA",
+role="PRO_DEVELOPER_ROLE",
+
 CREATE DATABASE PRO_DB;
 
 USE PRO_DB

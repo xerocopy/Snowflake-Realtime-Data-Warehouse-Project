@@ -1,0 +1,158 @@
+CREATE DATABASE TEST_DB;
+
+Use test_db;
+
+DROP TABLE IF EXISTS TESLA_DATA;
+CREATE TABLE TESLA_DATA (
+  Date date,
+  Open_value double,
+  High_value double,
+  Low_value double,
+  Close_value  double,
+  Adj_Close double,
+  volume bigint
+  );
+  
+################Bulk_Copy Process aka Batch_load####################
+
+select * from tesla_data;
+
+--Create External S3 Stage
+CREATE OR REPLACE STAGE BULK_COPY_TESLA_STAGE URL="s3://snowflakecomputingpro-123/TSLA.csv"
+CREDENTIALS=(AWS_KEY_ID='*****************' AWS_SECRET_KEY='******************************'); 
+
+--List the content of the stage
+LIST @BULK_COPY_TESLA_STAGE;
+
+COPY INTO TESLA_DATA
+FROM @BULK_COPY_TESLA_STAGE
+FILE_FORMAT = (TYPE = CSV FIELD_DELIMITER = ',' SKIP_HEADER = 1);
+
+SELECT * FROM TESLA_DATA LIMIT 10;
+
+#########Set Up Storage Integration aka Continous_Load################
+
+--Create Storage Integration
+CREATE or replace STORAGE INTEGRATION S3_INTEGRATION_SYSADMIN
+TYPE = EXTERNAL_STAGE
+STORAGE_PROVIDER = S3
+STORAGE_AWS_ROLE_ARN = 'arn:aws:iam::***************:role/Snowflake_Access_Role'
+ENABLED =TRUE
+STORAGE_ALLOWED_LOCATIONS = ('s3://snowflakecomputingpro-123/Input/');
+
+--Update the updated exteranalID in role Trust Relationship after Creating New Integration
+desc integration S3_INTEGRATION_SYSADMIN;
+
+CREATE or REPLACE STAGE TESLA_DATA_STAGE_SYSADMIN
+URL = 's3://snowflakecomputingpro-123/Input/'
+STORAGE_INTEGRATION = S3_INTEGRATION_SYSADMIN
+FILE_FORMAT = CSV_FORMAT;
+
+list @TESLA_DATA_STAGE_SYSADMIN;
+
+SELECT * FROM TESLA_DATA order by date desc LIMIT 10;
+
+COPY INTO TESLA_DATA
+FROM @TESLA_DATA_STAGE_SYSADMIN
+PATTERN = '.*.csv';
+
+CREATE or REPLACE pipe TESLA_PIPE_TEST AUTO_INGEST = TRUE as 
+COPY INTO TEST_DB.PUBLIC.TESLA_DATA
+FROM @TESLA_DATA_STAGE_SYSADMIN
+FILE_FORMAT = CSV_FORMAT;
+
+SHOW PIPES;
+
+#######################################################################
+###############Snowflake_Access_Role:##################################
+#######################################################################
+
+SNOWFLAKE_ACCESS_POLICY 
+--Permissions
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:PutObject",
+                "s3:GetObject",
+                "s3:GetObjectVersion",
+                "s3:DeleteObject",
+                "s3:DeleteObjectVersion"
+            ],
+            "Resource": [
+                "arn:aws:s3:::snowflakecomputingpro-123/Input/*",
+                "arn:aws:s3:::snowflakedatapipelinepro-123/firehose/*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": "s3:ListBucket",
+            "Resource": [
+                "arn:aws:s3:::snowflakecomputingpro-123",
+                "arn:aws:s3:::snowflakedatapipelinepro-123"
+            ],
+            "Condition": {
+                "StringLike": {
+                    "s3:prefix": [
+                        "Input/*",
+                        "firehose/*"
+                    ]
+                }
+            }
+        }
+    ]
+}
+
+--Trust Entities:
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::079828672386:user/jfa10000-s"
+            },
+            "Action": "sts:AssumeRole",
+            "Condition": {
+                "StringEquals": {
+                    "sts:ExternalId": [
+                        "JDB80709_SFCRole=2_5Aywsc9bty4Ks2XXZFfN8R7TZyU=",
+                        "JDB80709_SFCRole=2_ancZc8S4mml0dvNOKIjxqlD+Zkc="
+                    ]
+                }
+            }
+        }
+    ]
+}
+
+
+  
+#####################################################################
+####Commands to Create and Select suitable roles for execution#######
+#####################################################################
+
+USE ROLE ACCOUNTADMIN;
+
+GRANT CREATE INTEGRATION on account to role sysadmin;
+
+GRANT USAGE on S3_INTEGRATION to ROLE SYSADMIN;
+
+GRANT USAGE ON DATABASE TEST_DB TO SYSADMIN
+
+GRANT ALL ON WAREHOUSE TEST_WH TO ROLE sysadmin
+
+GRANT ALL ON ACCOUNT TO ROLE sysadmin
+
+GRANT OWNERSHIP ON DATABASE test_db TO ROLE sysadmin COPY CURRENT GRANTS;    
+GRANT OWNERSHIP ON ALL SCHEMAS IN DATABASE test_db TO ROLE sysadmin COPY CURRENT GRANTS;
+GRANT OWNERSHIP ON ALL TABLES IN DATABASE test_db TO ROLE sysadmin COPY CURRENT GRANTS; 
+GRANT OWNERSHIP ON ALL VIEWS IN DATABASE test_db TO ROLE sysadmin COPY CURRENT GRANTS; 
+
+USE ROLE SYSADMIN;
+
+SHOW SCHEMAS IN DATABASE test_db;
+
+
+  
