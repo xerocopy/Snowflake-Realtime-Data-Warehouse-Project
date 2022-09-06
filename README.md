@@ -84,3 +84,7 @@ run the SQL in the snowpipe_ETL_PRO_DB.txt file
 ![alt text](https://github.com/xerocopy/Snowflake-Realtime-Data-Warehouse-Project/blob/64819fabb6ed65a11016bfe33913922e49a44d74/img/setup_vis_QuickSight.PNG)
 
 ![alt text](https://github.com/xerocopy/Snowflake-Realtime-Data-Warehouse-Project/blob/64819fabb6ed65a11016bfe33913922e49a44d74/img/QuickSight_demo.PNG)
+
+
+
+![](https://gyazo.com/eb5c5741b6a9a16c692170a41a49c858.png | width=100)
