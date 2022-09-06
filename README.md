@@ -43,7 +43,7 @@ Overall Architecture
 ![alt text|100x60](https://github.com/xerocopy/Snowflake-Realtime-Data-Warehouse-Project/blob/6702fd69ef52ea34756f7833532b48e8dbead9c3/img/s3.PNG)
 
 ### Set Up Kinesis FireHose
-![alt text](https://github.com/xerocopy/Snowflake-Realtime-Data-Warehouse-Project/blob/bccefd6c7332857ecd241135e1a69e80bf47614e/img/kinesis.PNG | width =100)
+![alt text|100x80](https://github.com/xerocopy/Snowflake-Realtime-Data-Warehouse-Project/blob/bccefd6c7332857ecd241135e1a69e80bf47614e/img/kinesis.PNG)
 
 ### Snow SQL installation and setup
 
@@ -74,10 +74,10 @@ run the SQL in the snowpile_ETL_TEST_DB.txt file
 run the SQL in the snowpipe_ETL_PRO_DB.txt file
 
 ### Set Up Apache Airflow in AWS
-![alt text](https://github.com/xerocopy/Snowflake-Realtime-Data-Warehouse-Project/blob/64819fabb6ed65a11016bfe33913922e49a44d74/img/awsMWAA_dags.PNG | width =60)
-![alt text](https://github.com/xerocopy/Snowflake-Realtime-Data-Warehouse-Project/blob/64819fabb6ed65a11016bfe33913922e49a44d74/img/airflow_add_conn.PNG | width =60)
-![alt text](https://github.com/xerocopy/Snowflake-Realtime-Data-Warehouse-Project/blob/64819fabb6ed65a11016bfe33913922e49a44d74/img/successful_dags_graph.PNG | width =60)
+![alt text|80x40](https://github.com/xerocopy/Snowflake-Realtime-Data-Warehouse-Project/blob/64819fabb6ed65a11016bfe33913922e49a44d74/img/awsMWAA_dags.PNG)
+![alt text|80x40](https://github.com/xerocopy/Snowflake-Realtime-Data-Warehouse-Project/blob/64819fabb6ed65a11016bfe33913922e49a44d74/img/airflow_add_conn.PNG)
+![alt text|80x40](https://github.com/xerocopy/Snowflake-Realtime-Data-Warehouse-Project/blob/64819fabb6ed65a11016bfe33913922e49a44d74/img/successful_dags_graph.PNG)
 
 ### Set Up QuickSight
-![alt text](https://github.com/xerocopy/Snowflake-Realtime-Data-Warehouse-Project/blob/64819fabb6ed65a11016bfe33913922e49a44d74/img/setup_vis_QuickSight.PNG | width =60)
-![alt text](https://github.com/xerocopy/Snowflake-Realtime-Data-Warehouse-Project/blob/64819fabb6ed65a11016bfe33913922e49a44d74/img/QuickSight_demo.PNG | width =60)
+![alt text|80x40](https://github.com/xerocopy/Snowflake-Realtime-Data-Warehouse-Project/blob/64819fabb6ed65a11016bfe33913922e49a44d74/img/setup_vis_QuickSight.PN)
+![alt text|80x40](https://github.com/xerocopy/Snowflake-Realtime-Data-Warehouse-Project/blob/64819fabb6ed65a11016bfe33913922e49a44d74/img/QuickSight_demo.PNG)
