@@ -82,10 +82,7 @@ run the SQL in the snowpipe_ETL_PRO_DB.txt file
 
   
 ### Set Up QuickSight
-![alt text](https://github.com/xerocopy/Snowflake-Realtime-Data-Warehouse-Project/blob/64819fabb6ed65a11016bfe33913922e49a44d74/img/setup_vis_QuickSight.PNG)
 
-![alt text](https://github.com/xerocopy/Snowflake-Realtime-Data-Warehouse-Project/blob/64819fabb6ed65a11016bfe33913922e49a44d74/img/QuickSight_demo.PNG)
+<img src="https://github.com/xerocopy/Snowflake-Realtime-Data-Warehouse-Project/blob/64819fabb6ed65a11016bfe33913922e49a44d74/img/setup_vis_QuickSight.PNG" width=50% height=50%>
 
-image:
 <img src="https://github.com/xerocopy/Snowflake-Realtime-Data-Warehouse-Project/blob/64819fabb6ed65a11016bfe33913922e49a44d74/img/QuickSight_demo.PNG" width=50% height=50%>
-image end
