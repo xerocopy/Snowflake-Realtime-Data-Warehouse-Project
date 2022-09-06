@@ -17,10 +17,13 @@ SNOWFLAKE_ACCESS_ROLE
 AmazonMWAA-SNOWFLAKEDATAPIPELINEGPRO-123
 
 ### List of Assets
-Dags.py
+Data folder
+img folder
+SnowSQL-Command.txt
+customer_orders_raw_insert.py
 requirements.txt
-sql
-data - test data for first dag
+snowpipe_ETL_PRO_DB.txt
+snowpipe_ETL_TEST_DB.txt
 
 ### Data Pipeline Architecture
 Overall Architecture
@@ -69,6 +72,10 @@ run the SQL in the snowpile_ETL_TEST_DB.txt file
 run the SQL in the snowpipe_ETL_PRO_DB.txt file
 
 ### Set Up Apache Airflow in AWS
+![alt text](https://github.com/xerocopy/Snowflake-Realtime-Data-Warehouse-Project/blob/64819fabb6ed65a11016bfe33913922e49a44d74/img/awsMWAA_dags.PNG)
+![alt text](https://github.com/xerocopy/Snowflake-Realtime-Data-Warehouse-Project/blob/64819fabb6ed65a11016bfe33913922e49a44d74/img/airflow_add_conn.PNG)
+![alt text](https://github.com/xerocopy/Snowflake-Realtime-Data-Warehouse-Project/blob/64819fabb6ed65a11016bfe33913922e49a44d74/img/successful_dags_graph.PNG)
 
 ### Set Up QuickSight
-
+![alt text](https://github.com/xerocopy/Snowflake-Realtime-Data-Warehouse-Project/blob/64819fabb6ed65a11016bfe33913922e49a44d74/img/setup_vis_QuickSight.PNG)
+![alt text](https://github.com/xerocopy/Snowflake-Realtime-Data-Warehouse-Project/blob/64819fabb6ed65a11016bfe33913922e49a44d74/img/QuickSight_demo.PNG)
