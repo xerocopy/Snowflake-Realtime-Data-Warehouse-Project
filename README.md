@@ -40,10 +40,11 @@ Overall Architecture
 4. Managing regular loads -Organize files & schedule loads
 
 ### Set Up S3 Buckets
-![alt text|10x6](https://github.com/xerocopy/Snowflake-Realtime-Data-Warehouse-Project/blob/6702fd69ef52ea34756f7833532b48e8dbead9c3/img/s3.PNG)
+
+<img src="https://github.com/xerocopy/Snowflake-Realtime-Data-Warehouse-Project/blob/6702fd69ef52ea34756f7833532b48e8dbead9c3/img/s3.PNG" width=80% height=80%>
 
 ### Set Up Kinesis FireHose
-![alt text|10x8](https://github.com/xerocopy/Snowflake-Realtime-Data-Warehouse-Project/blob/bccefd6c7332857ecd241135e1a69e80bf47614e/img/kinesis.PNG)
+<img src="https://github.com/xerocopy/Snowflake-Realtime-Data-Warehouse-Project/blob/bccefd6c7332857ecd241135e1a69e80bf47614e/img/kinesis.PNG" width=80% height=80%>
 
 ### Snow SQL installation and setup
 
@@ -74,15 +75,18 @@ run the SQL in the snowpile_ETL_TEST_DB.txt file
 run the SQL in the snowpipe_ETL_PRO_DB.txt file
 
 ### Set Up Apache Airflow in AWS
-![alt text](https://github.com/xerocopy/Snowflake-Realtime-Data-Warehouse-Project/blob/64819fabb6ed65a11016bfe33913922e49a44d74/img/awsMWAA_dags.PNG)
-  
-![alt text](https://github.com/xerocopy/Snowflake-Realtime-Data-Warehouse-Project/blob/64819fabb6ed65a11016bfe33913922e49a44d74/img/airflow_add_conn.PNG)
 
-![alt text](https://github.com/xerocopy/Snowflake-Realtime-Data-Warehouse-Project/blob/64819fabb6ed65a11016bfe33913922e49a44d74/img/successful_dags_graph.PNG)
+<img src="https://github.com/xerocopy/Snowflake-Realtime-Data-Warehouse-Project/blob/64819fabb6ed65a11016bfe33913922e49a44d74/img/awsMWAA_dags.PNG" width=50% height=50%>
 
-  
-### Set Up QuickSight
+<img src="https://github.com/xerocopy/Snowflake-Realtime-Data-Warehouse-Project/blob/64819fabb6ed65a11016bfe33913922e49a44d74/img/successful_dags_graph.PNG" width=50% height=50%>
 
 <img src="https://github.com/xerocopy/Snowflake-Realtime-Data-Warehouse-Project/blob/64819fabb6ed65a11016bfe33913922e49a44d74/img/setup_vis_QuickSight.PNG" width=50% height=50%>
 
-<img src="https://github.com/xerocopy/Snowflake-Realtime-Data-Warehouse-Project/blob/64819fabb6ed65a11016bfe33913922e49a44d74/img/QuickSight_demo.PNG" width=50% height=50%>
+
+
+
+### Set Up QuickSight
+
+<img src="https://github.com/xerocopy/Snowflake-Realtime-Data-Warehouse-Project/blob/64819fabb6ed65a11016bfe33913922e49a44d74/img/setup_vis_QuickSight.PNG" width=30% height=30%>
+
+<img src="https://github.com/xerocopy/Snowflake-Realtime-Data-Warehouse-Project/blob/64819fabb6ed65a11016bfe33913922e49a44d74/img/QuickSight_demo.PNG" width=80% height=80%>
