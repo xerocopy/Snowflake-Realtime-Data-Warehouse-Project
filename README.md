@@ -40,10 +40,10 @@ Overall Architecture
 4. Managing regular loads -Organize files & schedule loads
 
 ### Set Up S3 Buckets
-![alt text|100x60](https://github.com/xerocopy/Snowflake-Realtime-Data-Warehouse-Project/blob/6702fd69ef52ea34756f7833532b48e8dbead9c3/img/s3.PNG)
+![alt text|10x6](https://github.com/xerocopy/Snowflake-Realtime-Data-Warehouse-Project/blob/6702fd69ef52ea34756f7833532b48e8dbead9c3/img/s3.PNG)
 
 ### Set Up Kinesis FireHose
-![alt text|100x80](https://github.com/xerocopy/Snowflake-Realtime-Data-Warehouse-Project/blob/bccefd6c7332857ecd241135e1a69e80bf47614e/img/kinesis.PNG)
+![alt text|10x8](https://github.com/xerocopy/Snowflake-Realtime-Data-Warehouse-Project/blob/bccefd6c7332857ecd241135e1a69e80bf47614e/img/kinesis.PNG)
 
 ### Snow SQL installation and setup
 
